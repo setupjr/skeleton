@@ -33,3 +33,12 @@ Route::post('/products', 'ProductController@store')->name('products.store');
 Route::get('/products', 'ProductController@index')->name('products.index');
 Route::get('/products/{id}/edit', 'ProductController@edit')->name('products.edit');
 Route::put('/products/{id}', 'ProductController@update')->name('products.update');
+
+Route::get('/clients/{id}/delete', 'ClientController@destroy')->name('clients.destroy');
+Route::get('/clients/create', 'ClientController@create')->name('clients.create');
+Route::post('/clients', 'ClientController@store')->name('clients.store');
+Route::get('/clients', 'ClientController@index')->name('clients.index');
+Route::get('/clients/{id}/edit', 'ClientController@edit')->name('clients.edit');
+Route::put('/clients/{id}', 'ClientController@update')->name('clients.update');
+
+Route::get('/listacliente', 'FrontClientController@listClient')->name('clients.list');

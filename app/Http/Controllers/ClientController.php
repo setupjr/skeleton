@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Products;
+use App\Clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
-class ProductController extends Controller
+class ClientController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,9 +23,10 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Products::whereNull('deleted_at')->paginate(10, ['products.*']);
+        $clients = Clients::whereNull('deleted_at')->paginate(10, ['clients.*']);
+        //$clients = Clients::all()->paginate(10, ['products.*']);
 
-        return view('products.index', ['products' => $products]);
+        return view('clients.index', ['clients' => $clients]);
     }
 
     /**
@@ -35,7 +37,7 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view('products.create');
+        return view('clients.create');
     }
 
     /**
@@ -47,15 +49,15 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
-        $product = new Products();
-        $product->name = Input::get('name');
-        $product->save();
+        $clients = new Clients();
+        $clients->name = Input::get('name');
+        $clients->save();
 
-        $id = $product->id;
+        $id = $clients->id;
 
-        $request->session()->flash('status', ['success' => "Produto salvo com sucesso"]);
+        $request->session()->flash('status', ['success' => "Cliente salvo com sucesso"]);
 
-        return redirect()->route('products.edit', ['id' => $id]);
+        return redirect()->route('clients.edit', ['id' => $id]);
     }
 
     /**
@@ -78,9 +80,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         //
-        $product = Products::find($id);
+        $client = Clients::find($id);
 
-        return view('products.edit', ['product' => $product]);
+        return view('clients.edit', ['client' => $client]);
     }
 
     /**
@@ -93,14 +95,14 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $product = Products::find($id);
+        $client = Clients::find($id);
 
-        $product->name = Input::get('name');
-        $product->save();
+        $client->name = Input::get('name');
+        $client->save();
 
-        $request->session()->flash('status', ['success' => "Produto salvo com sucesso"]);
+        $request->session()->flash('status', ['success' => "Cliente salvo com sucesso"]);
 
-        return redirect()->route('products.edit', ['id' => $id]);
+        return redirect()->route('clients.edit', ['id' => $id]);
     }
 
     /**
@@ -112,11 +114,18 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        $product = Products::find($id);
-        $product->delete();
+        $client = Clients::find($id);
+        $client->delete();
 
-        Session::flash('status', ['success' => "Produto deletado com sucesso!"]);
+        Session::flash('status', ['success' => "Cliente deletado com sucesso!"]);
 
         return redirect()->back();
+    }
+
+    public function listClient()
+    {
+        $clients = Clients::all();
+
+        return view("listacliente", ["clients" => $clients]);
     }
 }
